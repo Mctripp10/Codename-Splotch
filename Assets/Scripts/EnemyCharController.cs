@@ -28,7 +28,6 @@ public class EnemyCharController : MonoBehaviour
     public AudioSource extraAudio;
 
 
-    
 
     // Start is called before the first frame update
     void Start()
@@ -94,12 +93,9 @@ public class EnemyCharController : MonoBehaviour
                 extraAudio.PlayOneShot(explodeSFX, sfxVolume);
                 hasPlayedExplode = true;
                 enemyAudio.loop = false;
+
                 float lives = playerScript.lives;
-                if (lives > 0)
-                    playerScript.lives--;
-                    if (playerScript.lives == 0)
-                        print("Player dead!");
-                print (lives);
+                if (lives > 0) playerScript.takeDamage(1);
             }
             animator.SetBool("isChasing", false);
             animator.SetBool("isIdle", false);

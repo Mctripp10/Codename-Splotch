@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class CharController : MonoBehaviour
 {
@@ -11,7 +13,7 @@ public class CharController : MonoBehaviour
     public float playerSpeed = 2.0f;
     public float jumpHeight = 1.0f;
     public float gravityValue = -9.81f;
-    public float lives = 3.0f;
+    public int lives = 3;
 
     private bool hasPlayedDead = false;
     public bool isDead = false;
@@ -20,6 +22,9 @@ public class CharController : MonoBehaviour
     public AudioClip jumpSFX;
     public AudioClip deathSFX;
     private  AudioSource audio;
+
+    public GameObject livesImgs;
+    public GameObject gameOverText;
 
     // Start is called before the first frame update
     void Start()
@@ -35,12 +40,7 @@ public class CharController : MonoBehaviour
     void Update()
     {
         if (lives <= 0) {
-            animator.SetBool("isDead", true);
-            isDead = true;
-            if (!hasPlayedDead) {
-                audio.PlayOneShot(deathSFX, 2.0f);
-                hasPlayedDead = true;
-            }
+            killPlayer();
         } else {
             groundedPlayer = controller.isGrounded;
             Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));      // Gets vector of movement from keyboard input
@@ -82,5 +82,36 @@ public class CharController : MonoBehaviour
             playerVelocity.y += gravityValue * Time.deltaTime;          // Calculate gravity's current impact on bean
             controller.Move(playerVelocity * Time.deltaTime);           // Move bean
         }
+    }
+
+    public void takeDamage (int damage)
+        {
+            for (int i = 0; i < damage; i++) {
+                removeUIHeart(lives);
+                lives--;
+            }
+        }
+
+    public void removeUIHeart (int heartNum)
+    {
+        Image img = livesImgs.transform.GetChild(heartNum-1).gameObject.GetComponent<Image>();
+        var tempColor = img.color;
+        tempColor.a = 0f;
+        img.color = tempColor;
+    }
+
+    public void killPlayer ()
+    {
+        animator.SetBool("isDead", true);
+        isDead = true;
+        if (!hasPlayedDead) {
+            audio.PlayOneShot(deathSFX, 2.0f);
+            hasPlayedDead = true;
+        }
+
+        TextMeshProUGUI text = gameOverText.GetComponent<TextMeshProUGUI>();
+        var tempColor = text.color;
+        tempColor.a = 1f;
+        text.color = tempColor;
     }
 }
