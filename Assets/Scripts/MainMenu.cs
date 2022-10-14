@@ -17,7 +17,7 @@ public class MainMenu : MonoBehaviour
 
     public void playButton ()
     {
-        scene = "Arena";
+        scene = "Lobby";
         SceneManager.LoadScene(scene);
     }
 
