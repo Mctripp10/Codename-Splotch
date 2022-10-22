@@ -14,7 +14,7 @@ public class Teleporter : MonoBehaviour
         float dist = Vector3.Distance(player.position, transform.position);
 
         if (dist < 2.5) {
-            scene = "Level 1";
+            scene = "Loading 1";
             SceneManager.LoadScene(scene);
         }
     }

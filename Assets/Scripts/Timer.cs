@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Timer : MonoBehaviour
 {
     public float timeValue = 90f;
+    public float timeToChangeScene = 8f;
     public TextMeshProUGUI timerText;
     public bool gameStart = true;
+    public bool playerDead;
+    string scene;
 
     void Start()
     {
         timerText = GetComponent<TextMeshProUGUI>();
+        playerDead = false;
     }
 
     void Update()
@@ -23,6 +28,15 @@ public class Timer : MonoBehaviour
             timeValue = 0;
         }
 
+        if (playerDead) {
+            if (timeToChangeScene > 0) {
+                timeToChangeScene -= Time.deltaTime;
+            } else {
+                scene = "Lobby";
+                SceneManager.LoadScene(scene);
+            }
+        }
+
         if (gameStart) DisplayTime(timeValue);
     }
 
@@ -31,6 +45,8 @@ public class Timer : MonoBehaviour
         if (timeToDisplay < 0)
         {
             timeToDisplay = 0;
+            scene = "Lobby";
+            SceneManager.LoadScene(scene);
         }
 
         float minutes = Mathf.FloorToInt(timeToDisplay / 60);

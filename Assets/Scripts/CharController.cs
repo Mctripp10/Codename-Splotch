@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class CharController : MonoBehaviour
 {
@@ -23,10 +24,13 @@ public class CharController : MonoBehaviour
     public float sfxVolume = 0.7f;
     public AudioClip jumpSFX;
     public AudioClip deathSFX;
-    private  AudioSource audio;
+    private AudioSource audio;
 
     public GameObject livesImgs;
     public GameObject gameOverText;
+    public Timer timer;
+
+    private string scene;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +38,8 @@ public class CharController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         controller.minMoveDistance = 0;
+        if (SceneManager.GetActiveScene().name == "Level 1")
+            timer = GameObject.Find("TimerText").GetComponent<Timer>();
 
         audio = GetComponent<AudioSource>();
     }
@@ -106,6 +112,7 @@ public class CharController : MonoBehaviour
     {
         animator.SetBool("isDead", true);
         isDead = true;
+        timer.playerDead = true;
         if (!hasPlayedDead) {
             audio.PlayOneShot(deathSFX, 2.0f);
             hasPlayedDead = true;
