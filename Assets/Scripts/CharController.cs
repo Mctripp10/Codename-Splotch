@@ -11,7 +11,9 @@ public class CharController : MonoBehaviour
     private Vector3 playerVelocity;
     public bool groundedPlayer;
     public float playerSpeed = 2.0f;
+    public float alteredSpeed = 1;
     public float jumpHeight = 1.0f;
+    public float alteredJump;
     public float gravityValue = -9.81f;
     public int lives = 3;
 
@@ -45,7 +47,7 @@ public class CharController : MonoBehaviour
             groundedPlayer = controller.isGrounded;
             Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));      // Gets vector of movement from keyboard input
             moveDirection = transform.TransformDirection(moveDirection);                                         // Converts user input to something we can use
-            controller.Move(moveDirection * Time.deltaTime * playerSpeed);                                       // Move the controller
+            controller.Move(moveDirection * Time.deltaTime * playerSpeed * alteredSpeed);                                       // Move the controller
             
             // Gravity continously decreases player velocity, so much reset to 0 anytime it goes negative
             if (groundedPlayer && playerVelocity.y < 0)
@@ -76,7 +78,7 @@ public class CharController : MonoBehaviour
             if (Input.GetAxis("Jump") > 0 && groundedPlayer)
             {
                 audio.PlayOneShot(jumpSFX, sfxVolume);
-                playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);      // If jump, increase velocity in the y direction
+                playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue* alteredJump);      // If jump, increase velocity in the y direction
             }
 
             playerVelocity.y += gravityValue * Time.deltaTime;          // Calculate gravity's current impact on bean
