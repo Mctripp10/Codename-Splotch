@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class CharController : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class CharController : MonoBehaviour
     private Vector3 playerVelocity;
     public bool groundedPlayer;
     public float playerSpeed = 2.0f;
+    public float alteredSpeed = 1;
     public float jumpHeight = 1.0f;
+    public float alteredJump;
     public float gravityValue = -9.81f;
     public int lives = 3;
 
@@ -21,10 +24,13 @@ public class CharController : MonoBehaviour
     public float sfxVolume = 0.7f;
     public AudioClip jumpSFX;
     public AudioClip deathSFX;
-    private  AudioSource audio;
+    private AudioSource audio;
 
     public GameObject livesImgs;
     public GameObject gameOverText;
+    public Timer timer;
+
+    private string scene;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +38,8 @@ public class CharController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         controller.minMoveDistance = 0;
+        if (SceneManager.GetActiveScene().name == "Level 1")
+            timer = GameObject.Find("TimerText").GetComponent<Timer>();
 
         audio = GetComponent<AudioSource>();
     }
@@ -45,7 +53,7 @@ public class CharController : MonoBehaviour
             groundedPlayer = controller.isGrounded;
             Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));      // Gets vector of movement from keyboard input
             moveDirection = transform.TransformDirection(moveDirection);                                         // Converts user input to something we can use
-            controller.Move(moveDirection * Time.deltaTime * playerSpeed);                                       // Move the controller
+            controller.Move(moveDirection * Time.deltaTime * playerSpeed * alteredSpeed);                                       // Move the controller
             
             // Gravity continously decreases player velocity, so much reset to 0 anytime it goes negative
             if (groundedPlayer && playerVelocity.y < 0)
@@ -76,7 +84,7 @@ public class CharController : MonoBehaviour
             if (Input.GetAxis("Jump") > 0 && groundedPlayer)
             {
                 audio.PlayOneShot(jumpSFX, sfxVolume);
-                playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);      // If jump, increase velocity in the y direction
+                playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue* alteredJump);      // If jump, increase velocity in the y direction
             }
 
             playerVelocity.y += gravityValue * Time.deltaTime;          // Calculate gravity's current impact on bean
@@ -104,6 +112,7 @@ public class CharController : MonoBehaviour
     {
         animator.SetBool("isDead", true);
         isDead = true;
+        timer.playerDead = true;
         if (!hasPlayedDead) {
             audio.PlayOneShot(deathSFX, 2.0f);
             hasPlayedDead = true;
