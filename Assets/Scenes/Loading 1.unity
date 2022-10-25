@@ -674,7 +674,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -773,6 +773,7 @@ MonoBehaviour:
   menuMusic: {fileID: 8300000, guid: 614b3dc25a4914a498bc22e074354abe, type: 3}
   lobbyMusic: {fileID: 8300000, guid: 972d7290a3169ae4aad9ff1ae4b5b2a7, type: 3}
   levelOneMusic: {fileID: 8300000, guid: a4003e2495ecfd04ca64109c42905bc6, type: 3}
+  loading1Music: {fileID: 8300000, guid: 073f0653a5de8f54c8731382bacd6679, type: 3}
 --- !u!4 &2076185354
 Transform:
   m_ObjectHideFlags: 0

@@ -283,13 +283,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundedPlayer: 0
   playerSpeed: 3
+  alteredSpeed: 1
   jumpHeight: 2
+  alteredJump: 1
   gravityValue: -9.81
   lives: 3
   isDead: 0
   sfxVolume: 0.05
   jumpSFX: {fileID: 8300000, guid: 67889d21aba98114baa8addd08f2a3d1, type: 3}
   deathSFX: {fileID: 8300000, guid: d649d179ac260e84caa7d77f27c00f6d, type: 3}
+  livesImgs: {fileID: 0}
+  gameOverText: {fileID: 0}
+  timer: {fileID: 0}
 --- !u!143 &5855340871333985374
 CharacterController:
   m_ObjectHideFlags: 0

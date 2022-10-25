@@ -6,16 +6,30 @@ using UnityEngine.SceneManagement;
 public class Teleporter : MonoBehaviour
 {
     public Transform player;
-    string scene;
+    public string objName;
+    public string scene;
 
     // Update is called once per frame
+
     void Update()
     {
         float dist = Vector3.Distance(player.position, transform.position);
+        Debug.Log(dist);
 
-        if (dist < 2.5) {
-            scene = "Loading 1";
+        if (dist < 1) {
             SceneManager.LoadScene(scene);
         }
     }
+
+    /*
+    void OnTriggerEnter(Collider c)
+    {
+        Debug.Log("Hello");
+        Debug.Log(c.gameObject.name);
+        if (c.gameObject.name == objName)
+        {
+            SceneManager.LoadScene(scene);
+        }
+    }
+    */
 }

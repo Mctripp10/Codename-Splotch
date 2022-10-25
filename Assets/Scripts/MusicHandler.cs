@@ -11,6 +11,7 @@ public class MusicHandler : MonoBehaviour
     public AudioClip menuMusic;
     public AudioClip lobbyMusic;
     public AudioClip levelOneMusic;
+    public AudioClip loading1Music;
  
     // public AudioSource Audio;
  
@@ -44,6 +45,9 @@ public class MusicHandler : MonoBehaviour
                 break;
             case "Lobby":
                 source.clip = lobbyMusic;
+                break;
+            case "Loading 1":
+                source.clip = loading1Music;
                 break;
             default:
                 source.clip = null; // Don't play any music otherwise
